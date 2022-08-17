@@ -119,7 +119,7 @@ function displayMyRecipes() {
               </div>
             </div>
             <div class="cardImg">
-              <img src="./images/g0q7lkk61kez.webp"/>
+              <img src="./images/RecipeImages/dog.webp">
             </div>
           </div>
           `;
