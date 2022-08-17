@@ -1,7 +1,34 @@
 const main = document.querySelector(".main");
 const savedRecipesBtn = document.getElementById("savedRecipesBtn");
 const myRecipesBtn = document.getElementById("myRecipesBtn");
-let actualOption = "savedRecipes";
+let cards = document.querySelectorAll(".card");
+const descriptionText = document.querySelector(".aboutMe textarea");
+const editButton = document.querySelector(".aboutMe i");
+
+// Defaults
+let actualOption = "";
+
+if (localStorage.getItem("aboutMeText") == null) {
+  descriptionText.value =
+    "Part-time Chef\nFull time Web developer\n\nThe recipes I enjoy the most are the ones that get me shredded";
+} else {
+  descriptionText.value = localStorage.getItem("aboutMeText");
+}
+
+if (localStorage.getItem("actualOption") == null) {
+  actualOption = "savedRecipes";
+} else {
+  actualOption = localStorage.getItem("actualOption");
+}
+
+// Display or hide
+if (actualOption == "savedRecipes") {
+  savedRecipesBtn.classList.add("clicked");
+  displaySavedRecipes();
+} else {
+  myRecipesBtn.classList.add("clicked");
+  displayMyRecipes();
+}
 
 savedRecipesBtn.addEventListener("click", () => {
   if (savedRecipesBtn.classList.contains("clicked")) {
@@ -10,6 +37,7 @@ savedRecipesBtn.addEventListener("click", () => {
     savedRecipesBtn.classList.add("clicked");
     savedRecipesBtn.nextElementSibling.classList.remove("clicked");
     actualOption = "savedRecipes";
+    localStorage.setItem("actualOption", "savedRecipes");
     displaySavedRecipes();
   }
 });
@@ -21,214 +49,10 @@ myRecipesBtn.addEventListener("click", () => {
     myRecipesBtn.classList.add("clicked");
     myRecipesBtn.previousElementSibling.classList.remove("clicked");
     actualOption = "myRecipes";
+    localStorage.setItem("actualOption", "myRecipes");
     displayMyRecipes();
   }
 });
-
-const recipes = [
-  {
-    name: "BBQ Pizza",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/peter-bravo-de-los-rios-OklpRh8-Sns-unsplash.jpg",
-  },
-  {
-    name: "Apple pie a very long tittle why would you",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/pie.jpg",
-  },
-  {
-    name: "Fish",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/fish.jpg",
-  },
-  {
-    name: "Salad",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/salad.jpg",
-  },
-  {
-    name: "Healthy dessert in 5 minutes",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/dessert.jpg",
-  },
-  {
-    name: "BBQ Pizza",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/peter-bravo-de-los-rios-OklpRh8-Sns-unsplash.jpg",
-  },
-  {
-    name: "Apple pie a very long tittle why would you",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/pie.jpg",
-  },
-  {
-    name: "Fish",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/fish.jpg",
-  },
-  {
-    name: "Salad",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/salad.jpg",
-  },
-  {
-    name: "Healthy dessert in 5 minutes",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/dessert.jpg",
-  },
-  {
-    name: "BBQ Pizza",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/peter-bravo-de-los-rios-OklpRh8-Sns-unsplash.jpg",
-  },
-  {
-    name: "Apple pie a very long tittle why would you",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/pie.jpg",
-  },
-  {
-    name: "Fish",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/fish.jpg",
-  },
-  {
-    name: "Salad",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/salad.jpg",
-  },
-  {
-    name: "Healthy dessert in 5 minutes",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/dessert.jpg",
-  },
-  {
-    name: "BBQ Pizza",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/peter-bravo-de-los-rios-OklpRh8-Sns-unsplash.jpg",
-  },
-  {
-    name: "Apple pie a very long tittle why would you",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/pie.jpg",
-  },
-  {
-    name: "Fish",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/fish.jpg",
-  },
-  {
-    name: "Salad",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "4.1/5",
-    duration: "1 hour",
-    difficulty: "Medium",
-    type: "Dessert",
-    image: "./images/salad.jpg",
-  },
-  {
-    name: "Healthy dessert in 5 minutes",
-    description:
-      "Classic BBQ chicken pizza with tangy BBQ sauce, chicken, and red onion.easy thick-style pizza crust with cheese",
-    rating: "3.4/5",
-    duration: "2 hours",
-    difficulty: "Easy",
-    type: "Italian food",
-    image: "./images/dessert.jpg",
-  },
-];
-
-displaySavedRecipes();
 
 function displaySavedRecipes() {
   main.innerHTML = "";
@@ -262,8 +86,8 @@ function displaySavedRecipes() {
         </div>
         `;
   }
+  cards = document.querySelectorAll(".card");
 }
-
 function displayMyRecipes() {
   main.innerHTML = "";
   main.innerHTML = `<div class="card">
@@ -294,4 +118,38 @@ function displayMyRecipes() {
             </div>
           </div>
           `;
+  cards = document.querySelectorAll(".card");
 }
+
+//Search bar
+function showResults() {
+  let input = document.getElementById("searchBar");
+  let filter = input.value.toUpperCase();
+  cards.forEach((card) => {
+    let cardName =
+      card.querySelector(".cardInfo h1").textContent.toUpperCase() ||
+      card.querySelector(".cardInfo h1").innerText.toUpperCase();
+
+    if (cardName.includes(filter)) {
+      card.style.display = "";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+// Edit description
+
+editButton.addEventListener("click", () => {
+  if (descriptionText.hasAttribute("readonly")) {
+    descriptionText.removeAttribute("readonly");
+    editButton.classList.replace("fa-pen-to-square", "fa-circle-check");
+  } else {
+    descriptionText.setAttribute("readonly", "");
+    editButton.classList.replace("fa-circle-check", "fa-pen-to-square");
+  }
+});
+
+descriptionText.addEventListener("keyup", () => {
+  localStorage.setItem("aboutMeText", `${descriptionText.value}`);
+});

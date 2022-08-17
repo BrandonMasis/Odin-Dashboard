@@ -14,6 +14,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="./recipes.js" defer></script>
     <script src="./script.js" defer></script>
   </head>
 
@@ -71,7 +72,12 @@
         <div class="bell"><i class="fa-solid fa-bell"></i></div>
         <div class="search">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="searchBar" id="searchBar" />
+          <input
+            type="text"
+            name="searchBar"
+            id="searchBar"
+            onkeyup="showResults()"
+          />
         </div>
         <div class="filters">
           <div class="sort">
@@ -84,16 +90,20 @@
       </div>
       <div class="content">
         <div id="recipesOptions">
-          <div id="savedRecipesBtn" class="banner clicked">Saved recipes</div>
+          <div id="savedRecipesBtn" class="banner">Saved recipes</div>
           <div id="myRecipesBtn" class="banner">My recipes</div>
         </div>
 
         <div class="main"></div>
         <div class="sidebar">
           <div class="banner">About me</div>
-          <div class="aboutMe"></div>
+          <div class="aboutMe">
+            <textarea maxlength="150" readonly></textarea>
+            <i class="fa-solid fa-pen-to-square"></i>
+          </div>
           <div class="banner">Trending</div>
           <div class="trending"></div>
+          <div class="banner">Hide Sidebar</div>
         </div>
       </div>
     </section>
