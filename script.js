@@ -4,7 +4,12 @@ const myRecipesBtn = document.getElementById("myRecipesBtn");
 let cards = document.querySelectorAll(".card");
 const descriptionText = document.querySelector(".aboutMe textarea");
 const editButton = document.querySelector(".aboutMe i");
+const hideSidebarBtn = document.getElementById("hideSidebarBtn");
 
+const sidebar = document.querySelector(".sidebar");
+const content = document.querySelector(".content");
+const mainContent = document.querySelector(".main");
+const expandSidebarBtn = document.getElementById("expandSidebar");
 // Defaults
 let actualOption = "";
 
@@ -152,4 +157,16 @@ editButton.addEventListener("click", () => {
 
 descriptionText.addEventListener("keyup", () => {
   localStorage.setItem("aboutMeText", `${descriptionText.value}`);
+});
+
+hideSidebarBtn.addEventListener("click", () => {
+  sidebar.style.display = "none";
+  content.style.cssText =
+    "grid-template-columns:auto 40px,grid-template-rows: 40px auto;";
+  expandSidebarBtn.style.display = "flex";
+});
+
+expandSidebarBtn.addEventListener("click", () => {
+  sidebar.style.display = "grid";
+  expandSidebarBtn.style.display = "none";
 });
