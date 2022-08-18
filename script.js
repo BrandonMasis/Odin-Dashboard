@@ -313,3 +313,24 @@ function sortAlphabetic(a, b) {
 // To- do  filter buttons
 //filter buttons up/down interaction
 //filter functions up/down
+
+const sortBtn = document.getElementById("sortBtn");
+
+const filterBtn = document.getElementById("filterBtn");
+
+const sortingOptions = document.getElementById("sortingOptions");
+
+sortBtn.addEventListener("click", () => {
+  sortBtn.style.display = "none";
+  sortingOptions.style.display = "flex";
+});
+
+//Focus out effect
+
+document.addEventListener("click", (e) => {
+  console.log(e.target.id);
+  if (e.target.id != "sortingOption" && e.target.id != "sortBtn") {
+    sortBtn.style.display = "flex";
+    sortingOptions.style.display = "none";
+  }
+});
