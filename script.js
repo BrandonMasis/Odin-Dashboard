@@ -15,7 +15,7 @@ let actualOption = "";
 
 if (localStorage.getItem("aboutMeText") == null) {
   descriptionText.value =
-    "Part-time Chef\nFull time Web developer\n\nThe recipes I enjoy the most are the ones that get me shredded";
+    "Part-time Chef\nFull time Web developer\n\nGithub.com/BrandonMasis\n\nTry editing this description";
 } else {
   descriptionText.value = localStorage.getItem("aboutMeText");
 }
