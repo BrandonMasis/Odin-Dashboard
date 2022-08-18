@@ -376,6 +376,7 @@ p{
     width: fit-content;
     height: 270px;
     width: clamp(200px,350px,450px);
+    max-width: 450px;
     border-radius: 5px;
     overflow: hidden;
     background-color: rgb(255, 255, 255);
