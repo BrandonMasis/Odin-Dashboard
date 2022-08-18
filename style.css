@@ -371,8 +371,10 @@ p{
 
 .card{
     flex-shrink: 0;
+    flex-grow: 1;
     width: fit-content;
     height: 270px;
+    max-width: 450px;
     border-radius: 5px;
     overflow: hidden;
     background-color: rgb(255, 255, 255);
@@ -380,7 +382,7 @@ p{
     
     display: grid;
     align-items: center;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 2fr 1fr;
     grid-template-rows: auto;
     max-height: 600px;
     /* justify-content: space-between;
@@ -398,8 +400,11 @@ p{
 
 }
 .cardImg{
-    width: 100px;
+    width: 120px;
     height:100%;
+    justify-self: flex-end;
+    grid-column: 2;
+    
 }
 .cardImg img{
     width: 100%;
