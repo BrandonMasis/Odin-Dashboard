@@ -59,34 +59,37 @@ myRecipesBtn.addEventListener("click", () => {
   }
 });
 
-function displaySavedRecipes() {
+function displaySavedRecipes(filter) {
   main.innerHTML = "";
-  for (let i = 0; i < recipes.length; i++) {
+
+  let list = recipes.sort(filter);
+
+  for (let i = 0; i < list.length; i++) {
     main.innerHTML += `<div class="card">
           <div class="firstColumn">
             <div class="cardStats">
               <div>
                 <i class="fa-solid fa-star"></i>
                 <h5>
-                  <span class="bold">${recipes[i].rating}</span>
+                  <span class="bold">${list[i].rating}</span>
                 </h5>
               </div>
               <div>
                 <i class="fa-solid fa-clock"></i>
-                <h5>${recipes[i].duration}</h5>
+                <h5>${list[i].duration}</h5>
               </div>
             </div>
             <div class="cardInfo">
-              <h1>${recipes[i].name}</h1>
-              <p>${recipes[i].description}</p>
+              <h1>${list[i].name}</h1>
+              <p>${list[i].description}</p>
             </div>
             <div class="cardTags">
-              <div class="difficulty">${recipes[i].difficulty}</div>
-              <div class="type">${recipes[i].type}</div>
+              <div class="difficulty">${list[i].difficulty}</div>
+              <div class="type">${list[i].type}</div>
             </div>
           </div>
           <div class="cardImg">
-            <img src="${recipes[i].image}"/>
+            <img src="${list[i].image}"/>
           </div>
         </div>
         `;
@@ -170,3 +173,81 @@ expandSidebarBtn.addEventListener("click", () => {
   sidebar.style.display = "grid";
   expandSidebarBtn.style.display = "none";
 });
+
+// function sortDifficulty(a, b) {
+//   //Equal
+//   if (a.difficulty == b.difficulty) {
+//     return 0;
+//   }
+
+//   //Easy down
+//   if (
+//     a.difficulty == "Easy" &&
+//     (b.difficulty == "Medium" ||
+//       b.difficulty == "Medium/Hard" ||
+//       b.difficulty == "Hard")
+//   ) {
+//     return -1;
+//   }
+
+//   //Medium down
+//   if (
+//     a.difficulty == "Medium" &&
+//     (b.difficulty == "Medium/Hard" || b.difficulty == "Hard")
+//   ) {
+//     return -1;
+//   }
+
+//   //Medium up
+//   if (a.difficulty == "Medium" && b.difficulty == "Easy") {
+//     return 1;
+//   }
+
+//   //Medium/Hard down
+//   if (a.difficulty == "Medium/Hard" && b.difficulty == "Hard") {
+//     return -1;
+//   }
+
+//   //Medium/Hard up
+//   if (
+//     a.difficulty == "Medium/Hard" &&
+//     (b.difficulty == "Easy" || b.difficulty == "Medium")
+//   ) {
+//     return 1;
+//   }
+// }
+
+function assignSortingIndex() {
+  let l = recipes.length;
+
+  for (let i = 0; i < l; i++) {
+    if (
+      recipes[i].difficultyIndex == undefined ||
+      recipes[i].difficultyIndex == ""
+    ) {
+      if (recipes[i].difficulty == "Easy") {
+        recipes[i].difficultyIndex = 1;
+      } else if (recipes[i].difficulty == "Medium") {
+        recipes[i].difficultyIndex = 2;
+      } else if (recipes[i].difficulty == "Medium/Hard") {
+        recipes[i].difficultyIndex = 3;
+      } else if (recipes[i].difficulty == "Hard") {
+        recipes[i].difficultyIndex = 4;
+      }
+    }
+  }
+}
+
+function sortDifficulty(a, b) {
+  assignSortingIndex();
+
+  if (a.difficultyIndex == b.difficultyIndex) {
+    return 0;
+  }
+  if (a.difficultyIndex < b.difficultyIndex) {
+    return -1;
+  }
+  if (a.difficultyIndex > b.difficultyIndex) {
+    return 1;
+  }
+}
