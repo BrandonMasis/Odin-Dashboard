@@ -59,10 +59,19 @@ myRecipesBtn.addEventListener("click", () => {
   }
 });
 
+// const card = document.querySelectorAll(".card");
+// const cardImg = document.querySelectorAll(".cardImg");
+
 function displaySavedRecipes(filter) {
   main.innerHTML = "";
 
-  let list = recipes.sort(filter);
+  let list = undefined;
+
+  if (filter == undefined) {
+    list = recipes;
+  } else {
+    list = recipes.sort(filter);
+  }
 
   for (let i = 0; i < list.length; i++) {
     main.innerHTML += `<div class="card">
@@ -95,6 +104,15 @@ function displaySavedRecipes(filter) {
         `;
   }
   cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.addEventListener("mouseover", () => {
+      card.querySelector(".cardImg").classList.toggle("imgHover");
+    });
+    card.addEventListener("mouseout", () => {
+      card.querySelector(".cardImg").classList.remove("imgHover");
+    });
+  });
 }
 function displayMyRecipes() {
   main.innerHTML = "";
@@ -173,49 +191,6 @@ expandSidebarBtn.addEventListener("click", () => {
   sidebar.style.display = "grid";
   expandSidebarBtn.style.display = "none";
 });
-
-// function sortDifficulty(a, b) {
-//   //Equal
-//   if (a.difficulty == b.difficulty) {
-//     return 0;
-//   }
-
-//   //Easy down
-//   if (
-//     a.difficulty == "Easy" &&
-//     (b.difficulty == "Medium" ||
-//       b.difficulty == "Medium/Hard" ||
-//       b.difficulty == "Hard")
-//   ) {
-//     return -1;
-//   }
-
-//   //Medium down
-//   if (
-//     a.difficulty == "Medium" &&
-//     (b.difficulty == "Medium/Hard" || b.difficulty == "Hard")
-//   ) {
-//     return -1;
-//   }
-
-//   //Medium up
-//   if (a.difficulty == "Medium" && b.difficulty == "Easy") {
-//     return 1;
-//   }
-
-//   //Medium/Hard down
-//   if (a.difficulty == "Medium/Hard" && b.difficulty == "Hard") {
-//     return -1;
-//   }
-
-//   //Medium/Hard up
-//   if (
-//     a.difficulty == "Medium/Hard" &&
-//     (b.difficulty == "Easy" || b.difficulty == "Medium")
-//   ) {
-//     return 1;
-//   }
-// }
 
 function assignSortingIndex() {
   let l = recipes.length;
