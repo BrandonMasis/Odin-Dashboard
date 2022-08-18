@@ -10,9 +10,17 @@ const sidebar = document.querySelector(".sidebar");
 const content = document.querySelector(".content");
 const mainContent = document.querySelector(".main");
 const expandSidebarBtn = document.getElementById("expandSidebar");
-// Defaults
+
+//*** *** *** *** *** *** *** Defaults*** *** *** *** *** *** *** *** //
+
 let actualOption = "";
 
+//Target list for filters
+let actualList = myRecipes;
+
+//*** *** *** *** *** *** *** Locale storage defaults*** *** *** *** *** *** *** *** //
+
+// Get description
 if (localStorage.getItem("aboutMeText") == null) {
   descriptionText.value =
     "Part-time Chef\nFull time Web developer\n\nGithub.com/BrandonMasis\n\nTry editing this description";
@@ -26,13 +34,14 @@ if (localStorage.getItem("actualOption") == null) {
   actualOption = localStorage.getItem("actualOption");
 }
 
-// Display or hide
+// Remember the last visited page
+
 if (actualOption == "savedRecipes") {
   savedRecipesBtn.classList.add("clicked");
-  displaySavedRecipes();
+  displaySavedRecipes(sortAlphabetic);
 } else {
   myRecipesBtn.classList.add("clicked");
-  displayMyRecipes();
+  displayMyRecipes(sortAlphabetic);
 }
 
 savedRecipesBtn.addEventListener("click", () => {
@@ -43,7 +52,8 @@ savedRecipesBtn.addEventListener("click", () => {
     savedRecipesBtn.nextElementSibling.classList.remove("clicked");
     actualOption = "savedRecipes";
     localStorage.setItem("actualOption", "savedRecipes");
-    displaySavedRecipes();
+    //alphabetic order as the default
+    displaySavedRecipes(sortAlphabetic);
   }
 });
 
@@ -55,22 +65,24 @@ myRecipesBtn.addEventListener("click", () => {
     myRecipesBtn.previousElementSibling.classList.remove("clicked");
     actualOption = "myRecipes";
     localStorage.setItem("actualOption", "myRecipes");
-    displayMyRecipes();
+
+    //alphabetic order as the default
+    displayMyRecipes(sortAlphabetic);
   }
 });
 
-// const card = document.querySelectorAll(".card");
-// const cardImg = document.querySelectorAll(".cardImg");
+//Default filter could be (alphabetic order)
+//Filters could be: Difficulty, Rating, time, and well alphabetic order.
 
-function displaySavedRecipes(filter) {
+function displaySavedRecipes(sort) {
   main.innerHTML = "";
 
   let list = undefined;
 
-  if (filter == undefined) {
+  if (sort == undefined) {
     list = recipes;
   } else {
-    list = recipes.sort(filter);
+    list = recipes.sort(sort);
   }
 
   for (let i = 0; i < list.length; i++) {
@@ -114,37 +126,58 @@ function displaySavedRecipes(filter) {
     });
   });
 }
-function displayMyRecipes() {
+
+function displayMyRecipes(sort) {
   main.innerHTML = "";
-  main.innerHTML = `<div class="card">
-            <div class="firstColumn">
-              <div class="cardStats">
-                <div>
-                  <i class="fa-solid fa-star"></i>
-                  <h5>
-                    <span class="bold">Decent</span>
-                  </h5>
-                </div>
-                <div>
-                  <i class="fa-solid fa-clock"></i>
-                  <h5>Depends on your oven</h5>
-                </div>
+
+  let list = undefined;
+
+  if (sort == undefined) {
+    list = myRecipes;
+  } else {
+    list = myRecipes.sort(sort);
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    main.innerHTML += `<div class="card">
+          <div class="firstColumn">
+            <div class="cardStats">
+              <div>
+                <i class="fa-solid fa-star"></i>
+                <h5>
+                  <span class="bold">${list[i].rating}</span>
+                </h5>
               </div>
-              <div class="cardInfo">
-                <h1>Peptobismol Hotdog</h1>
-                <p>Tought it was ketchup💀</p>
-              </div>
-              <div class="cardTags">
-                <div class="difficulty">Easy</div>
-                <div class="type">It's Pink</div>
+              <div>
+                <i class="fa-solid fa-clock"></i>
+                <h5>${list[i].duration}</h5>
               </div>
             </div>
-            <div class="cardImg">
-              <img src="./images/RecipeImages/dog.webp">
+            <div class="cardInfo">
+              <h1>${list[i].name}</h1>
+              <p>${list[i].description}</p>
+            </div>
+            <div class="cardTags">
+              <div class="difficulty">${list[i].difficulty}</div>
+              <div class="type">${list[i].type}</div>
             </div>
           </div>
-          `;
+          <div class="cardImg">
+            <img src="${list[i].image}"/>
+          </div>
+        </div>
+        `;
+  }
   cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.addEventListener("mouseover", () => {
+      card.querySelector(".cardImg").classList.toggle("imgHover");
+    });
+    card.addEventListener("mouseout", () => {
+      card.querySelector(".cardImg").classList.remove("imgHover");
+    });
+  });
 }
 
 //Search bar
@@ -164,7 +197,7 @@ function showResults() {
   });
 }
 
-// Edit description
+//*** *** *** *** *** *** ***Sidebar about me*** *** *** *** *** *** *** *** //
 
 editButton.addEventListener("click", () => {
   if (descriptionText.hasAttribute("readonly")) {
@@ -192,22 +225,26 @@ expandSidebarBtn.addEventListener("click", () => {
   expandSidebarBtn.style.display = "none";
 });
 
-function assignSortingIndex() {
-  let l = recipes.length;
+//*** *** *** *** *** *** *** Sorting *** *** *** *** *** *** *** *** //
 
+let l = actualList.length;
+
+function assignSortingIndex() {
   for (let i = 0; i < l; i++) {
     if (
-      recipes[i].difficultyIndex == undefined ||
-      recipes[i].difficultyIndex == ""
+      actualList[i].difficultyIndex == undefined ||
+      actualList[i].difficultyIndex == ""
     ) {
-      if (recipes[i].difficulty == "Easy") {
-        recipes[i].difficultyIndex = 1;
-      } else if (recipes[i].difficulty == "Medium") {
-        recipes[i].difficultyIndex = 2;
-      } else if (recipes[i].difficulty == "Medium/Hard") {
-        recipes[i].difficultyIndex = 3;
-      } else if (recipes[i].difficulty == "Hard") {
-        recipes[i].difficultyIndex = 4;
+      if (actualList[i].difficulty == "Easy") {
+        actualList[i].difficultyIndex = 1;
+      } else if (actualList[i].difficulty == "Medium") {
+        actualList[i].difficultyIndex = 2;
+      } else if (actualList[i].difficulty == "Medium/Hard") {
+        actualList[i].difficultyIndex = 3;
+      } else if (actualList[i].difficulty == "Hard") {
+        actualList[i].difficultyIndex = 4;
+      } else {
+        actualList[i].difficultyIndex = "none";
       }
     }
   }
@@ -226,3 +263,53 @@ function sortDifficulty(a, b) {
     return 1;
   }
 }
+
+function sortDuration(a, b) {
+  for (let i = 0; i < l; i++) {
+    if (actualList[i].duration.match(/minute.?/gi)) {
+      actualList[i].durationIndex =
+        Number(actualList[i].duration.match(/\d+(\.\d)?/g)) * 1;
+    } else if (actualList[i].duration.match(/hour.?/gi)) {
+      actualList[i].durationIndex =
+        Number(actualList[i].duration.match(/\d+(\.\d)?/g)) * 60;
+    }
+  }
+
+  if (a.durationIndex == b.durationIndex) {
+    return 0;
+  }
+  if (a.durationIndex < b.durationIndex) {
+    return -1;
+  }
+  if (a.durationIndex > b.durationIndex) {
+    return 1;
+  }
+}
+
+function sortRating(a, b) {
+  if (a.rating == b.rating) {
+    return 0;
+  }
+  if (a.rating < b.rating) {
+    return -1;
+  }
+  if (a.rating > b.rating) {
+    return 1;
+  }
+}
+
+function sortAlphabetic(a, b) {
+  if (a.name.toUpperCase() == b.name.toUpperCase()) {
+    return 0;
+  }
+  if (a.name.toUpperCase() < b.name.toUpperCase()) {
+    return -1;
+  }
+  if (a.name.toUpperCase() > b.name.toUpperCase()) {
+    return 1;
+  }
+}
+
+// To- do  filter buttons
+//filter buttons up/down interaction
+//filter functions up/down

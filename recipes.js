@@ -135,7 +135,7 @@ const recipes = [
     name: "The perfect pancakes",
     description: cupcakeIpsum,
     rating: `${RandomCalification()}`,
-    duration: "",
+    duration: "30 Minutes",
     difficulty: "Easy",
     type: "Dessert",
     image: "./images/RecipeImages/perfpanc.jpg",
@@ -193,6 +193,36 @@ const recipes = [
     difficulty: "Medium",
     type: "Italian food",
     image: "./images/RecipeImages/spagMeatb.jpg",
+  },
+  {
+    name: "Pepperoni Pizza",
+    description: baconIpsum,
+    rating: `${RandomCalification()}`,
+    duration: "2 Hours",
+    difficulty: "Medium/Hard",
+    type: "Italian food",
+    image: "./images/RecipeImages/peppPizza.jpg",
+  },
+  {
+    name: "Healthy Omelette",
+    description: baconIpsum,
+    rating: `${RandomCalification()}`,
+    duration: "30 Minutes",
+    difficulty: "Easy",
+    type: "Healthy",
+    image: "./images/RecipeImages/omelette.jpg",
+  },
+];
+
+const myRecipes = [
+  {
+    name: "Peptobismol Hotdog",
+    description: "Tought it was ketchup💀",
+    rating: `${RandomCalification()}`,
+    duration: "2 Minutes",
+    difficulty: "Easy",
+    type: "Sus",
+    image: "./images/RecipeImages/dog.webp",
   },
   {
     name: "Pepperoni Pizza",
