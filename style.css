@@ -526,6 +526,8 @@ p{
     align-items: center;
     padding: 10px;
     width: 100%;
+    cursor: pointer;
+    user-select: none;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 .trendingItem:hover{
@@ -543,4 +545,5 @@ p{
     border-radius: 50px;
     object-fit: cover;
     margin-right: 5px;
+    
 }
