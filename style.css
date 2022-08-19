@@ -192,8 +192,8 @@ p{
     position: relative;
 }
 .search i{
-    position: absolute;
-    left: 10px;
+    position: relative;
+    left: 25px;
     color: var(--gray);
 }
 #searchBar{
@@ -215,6 +215,7 @@ p{
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 8px;
 }
+
 
 .filters{
     display: flex;
