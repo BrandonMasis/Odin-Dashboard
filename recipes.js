@@ -74,7 +74,7 @@ const recipes = [
     rating: `${RandomCalification()}`,
     duration: "1.5 Hours",
     difficulty: "Medium",
-    type: "Italin food",
+    type: "Italian food",
     image: "./images/RecipeImages/carbonPasta.jpg",
   },
   {
