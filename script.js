@@ -16,7 +16,7 @@ const expandSidebarBtn = document.getElementById("expandSidebar");
 let actualOption = "";
 
 //Target list for filters
-let actualList = myRecipes;
+let actualList = undefined;
 
 //*** *** *** *** *** *** *** Locale storage defaults*** *** *** *** *** *** *** *** //
 
@@ -34,14 +34,20 @@ if (localStorage.getItem("actualOption") == null) {
   actualOption = localStorage.getItem("actualOption");
 }
 
+if (localStorage.getItem("actualList") == null) {
+  actualList = recipes;
+} else {
+  actualList = JSON.parse(localStorage.getItem("actualList"));
+}
+
 // Remember the last visited page
 
 if (actualOption == "savedRecipes") {
   savedRecipesBtn.classList.add("clicked");
-  displaySavedRecipes(sortAlphabetic);
+  display(actualList, sortAlphabeticOrder);
 } else {
   myRecipesBtn.classList.add("clicked");
-  displayMyRecipes(sortAlphabetic);
+  display(actualList, sortAlphabeticOrder);
 }
 
 savedRecipesBtn.addEventListener("click", () => {
@@ -53,7 +59,9 @@ savedRecipesBtn.addEventListener("click", () => {
     actualOption = "savedRecipes";
     localStorage.setItem("actualOption", "savedRecipes");
     //alphabetic order as the default
-    displaySavedRecipes(sortAlphabetic);
+    actualList = recipes;
+    localStorage.setItem("actualList", JSON.stringify(recipes));
+    display(actualList, sortAlphabeticOrder);
   }
 });
 
@@ -67,22 +75,20 @@ myRecipesBtn.addEventListener("click", () => {
     localStorage.setItem("actualOption", "myRecipes");
 
     //alphabetic order as the default
-    displayMyRecipes(sortAlphabetic);
+
+    actualList = myRecipes;
+    localStorage.setItem("actualList", JSON.stringify(myRecipes));
+    display(actualList, sortAlphabeticOrder);
   }
 });
 
-//Default filter could be (alphabetic order)
-//Filters could be: Difficulty, Rating, time, and well alphabetic order.
-
-function displaySavedRecipes(sort) {
+function display(list, sort) {
   main.innerHTML = "";
 
-  let list = undefined;
-
   if (sort == undefined) {
-    list = recipes;
+    list = list.sort(sortAlphabeticOrder);
   } else {
-    list = recipes.sort(sort);
+    list = list.sort(sort);
   }
 
   for (let i = 0; i < list.length; i++) {
@@ -115,59 +121,7 @@ function displaySavedRecipes(sort) {
         </div>
         `;
   }
-  cards = document.querySelectorAll(".card");
 
-  cards.forEach((card) => {
-    card.addEventListener("mouseover", () => {
-      card.querySelector(".cardImg").classList.toggle("imgHover");
-    });
-    card.addEventListener("mouseout", () => {
-      card.querySelector(".cardImg").classList.remove("imgHover");
-    });
-  });
-}
-
-function displayMyRecipes(sort) {
-  main.innerHTML = "";
-
-  let list = undefined;
-
-  if (sort == undefined) {
-    list = myRecipes;
-  } else {
-    list = myRecipes.sort(sort);
-  }
-
-  for (let i = 0; i < list.length; i++) {
-    main.innerHTML += `<div class="card">
-          <div class="firstColumn">
-            <div class="cardStats">
-              <div>
-                <i class="fa-solid fa-star"></i>
-                <h5>
-                  <span class="bold">${list[i].rating}</span>
-                </h5>
-              </div>
-              <div>
-                <i class="fa-solid fa-clock"></i>
-                <h5>${list[i].duration}</h5>
-              </div>
-            </div>
-            <div class="cardInfo">
-              <h1>${list[i].name}</h1>
-              <p>${list[i].description}</p>
-            </div>
-            <div class="cardTags">
-              <div class="difficulty">${list[i].difficulty}</div>
-              <div class="type">${list[i].type}</div>
-            </div>
-          </div>
-          <div class="cardImg">
-            <img src="${list[i].image}"/>
-          </div>
-        </div>
-        `;
-  }
   cards = document.querySelectorAll(".card");
 
   cards.forEach((card) => {
@@ -227,9 +181,8 @@ expandSidebarBtn.addEventListener("click", () => {
 
 //*** *** *** *** *** *** *** Sorting *** *** *** *** *** *** *** *** //
 
-let l = actualList.length;
-
 function assignSortingIndex() {
+  let l = actualList.length;
   for (let i = 0; i < l; i++) {
     if (
       actualList[i].difficultyIndex == undefined ||
@@ -265,6 +218,7 @@ function sortDifficulty(a, b) {
 }
 
 function sortDuration(a, b) {
+  let l = actualList.length;
   for (let i = 0; i < l; i++) {
     if (actualList[i].duration.match(/minute.?/gi)) {
       actualList[i].durationIndex =
@@ -298,7 +252,7 @@ function sortRating(a, b) {
   }
 }
 
-function sortAlphabetic(a, b) {
+function sortAlphabeticOrder(a, b) {
   if (a.name.toUpperCase() == b.name.toUpperCase()) {
     return 0;
   }
@@ -320,6 +274,8 @@ const filterBtn = document.getElementById("filterBtn");
 
 const sortingOptions = document.getElementById("sortingOptions");
 
+const sortingOption = document.querySelectorAll(".sortingOption");
+
 sortBtn.addEventListener("click", () => {
   sortBtn.style.display = "none";
   sortingOptions.style.display = "flex";
@@ -333,4 +289,18 @@ document.addEventListener("click", (e) => {
     sortBtn.style.display = "flex";
     sortingOptions.style.display = "none";
   }
+});
+
+sortingOption.forEach((option) => {
+  option.addEventListener("click", () => {
+    if (
+      option.getAttribute("onclick").match(/(?<=sort)\w+/i) == "AlphabeticOrder"
+    ) {
+      sortBtn.innerText = `Sort By: Alphabetic Order`;
+    } else {
+      sortBtn.innerText = `Sort By: ${option
+        .getAttribute("onclick")
+        .match(/(?<=sort)\w+/i)}`;
+    }
+  });
 });

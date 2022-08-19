@@ -15,7 +15,6 @@
       referrerpolicy="no-referrer"
     />
     <script src="./recipes.js" defer></script>
-    <script src="./localeStorage.js" defer></script>
     <script src="./script.js" defer></script>
   </head>
 
@@ -84,13 +83,26 @@
         <div class="filters">
           <div class="sort">
             <button id="sortBtn">
-              <span class="bold">Sort By:</span>Preparation time
+              <span class="bold">Sort By:</span>Alphabetic Order
             </button>
             <div id="sortingOptions">
-              <span id="sortingOption">Difficulty</span
-              ><span id="sortingOption">Duration</span
-              ><span id="sortingOption">Rating</span
-              ><span id="sortingOption">Alphabetic Order</span>
+              <span
+                class="sortingOption"
+                onclick="display(actualList, sortDifficulty)"
+                >Difficulty</span
+              ><span
+                class="sortingOption"
+                onclick="display(actualList, sortDuration)"
+                >Duration</span
+              ><span
+                class="sortingOption"
+                onclick="display(actualList, sortRating)"
+                >Rating</span
+              ><span
+                class="sortingOption"
+                onclick="display(actualList, sortAlphabeticOrder)"
+                >Alphabetic Order</span
+              >
             </div>
           </div>
           <div class="filter">

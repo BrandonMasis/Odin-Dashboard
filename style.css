@@ -219,6 +219,7 @@ p{
     grid-column: 2/4;
     margin-left: 20px;
     gap: 1em;
+    
 }
 
 .filters div, .filters button{
@@ -235,6 +236,7 @@ p{
     max-height: 2.5em;
     height: 2.5em;
     overflow: hidden;
+    
 }
 
 .filters button{
@@ -247,6 +249,7 @@ p{
     border-style: none;
     border-left: .5em solid var(--yellow);
     border-right: .5em solid var(--yellow);
+    
 }
 .filters button:hover{
     color: var(--white-hover);
