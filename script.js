@@ -15,6 +15,9 @@ const expandSidebarBtn = document.getElementById("expandSidebar");
 
 let actualOption = "";
 
+let dir1 = -1,
+  dir2 = 0,
+  dir3 = 1;
 //Target list for filters
 let actualList = undefined;
 
@@ -203,17 +206,26 @@ function assignSortingIndex() {
   }
 }
 
+// EXAMPLE
+//dir1    dir2      dir
+//-1       0         1
+//From lowest to highest
+
+//dir1    dir2      dir
+//1       0         -1
+//From highest to lowest
+
 function sortDifficulty(a, b) {
   assignSortingIndex();
 
   if (a.difficultyIndex == b.difficultyIndex) {
-    return 0;
+    return dir2;
   }
   if (a.difficultyIndex < b.difficultyIndex) {
-    return -1;
+    return dir1;
   }
   if (a.difficultyIndex > b.difficultyIndex) {
-    return 1;
+    return dir3;
   }
 }
 
@@ -230,37 +242,37 @@ function sortDuration(a, b) {
   }
 
   if (a.durationIndex == b.durationIndex) {
-    return 0;
+    return dir2;
   }
   if (a.durationIndex < b.durationIndex) {
-    return -1;
+    return dir1;
   }
   if (a.durationIndex > b.durationIndex) {
-    return 1;
+    return dir3;
   }
 }
 
 function sortRating(a, b) {
   if (a.rating == b.rating) {
-    return 0;
+    return dir2;
   }
   if (a.rating < b.rating) {
-    return -1;
+    return dir1;
   }
   if (a.rating > b.rating) {
-    return 1;
+    return dir3;
   }
 }
 
 function sortAlphabeticOrder(a, b) {
   if (a.name.toUpperCase() == b.name.toUpperCase()) {
-    return 0;
+    return dir2;
   }
   if (a.name.toUpperCase() < b.name.toUpperCase()) {
-    return -1;
+    return dir1;
   }
   if (a.name.toUpperCase() > b.name.toUpperCase()) {
-    return 1;
+    return dir3;
   }
 }
 
@@ -276,31 +288,100 @@ const sortingOptions = document.getElementById("sortingOptions");
 
 const sortingOption = document.querySelectorAll(".sortingOption");
 
-sortBtn.addEventListener("click", () => {
-  sortBtn.style.display = "none";
-  sortingOptions.style.display = "flex";
+let filterDirection = document.getElementById("filterDirection");
+
+sortBtn.addEventListener("click", (e) => {
+  if (e.target.id == "sortBtn") {
+    sortBtn.style.display = "none";
+    sortingOptions.style.display = "flex";
+  } else {
+    return;
+  }
 });
 
 //Focus out effect
 
 document.addEventListener("click", (e) => {
-  console.log(e.target.id);
-  if (e.target.id != "sortingOption" && e.target.id != "sortBtn") {
+  if (
+    (sortingOptions.style.display =
+      "flex" &&
+      e.target.id != "sortingOption" &&
+      e.target.id != "sortBtn" &&
+      e.target.id != "filterDirection")
+  ) {
     sortBtn.style.display = "flex";
     sortingOptions.style.display = "none";
   }
+
+  // console.log(e.target.id);
+  // if (e.target.id != "sortingOption" && e.target.id != "sortBtn") {
+  //   sortBtn.style.display = "flex";
+  //   sortingOptions.style.display = "none";
+  // }
 });
+
+let directionSwitch = false;
 
 sortingOption.forEach((option) => {
   option.addEventListener("click", () => {
+    sortBtn.style.display = "flex";
+    sortingOptions.style.display = "none";
     if (
       option.getAttribute("onclick").match(/(?<=sort)\w+/i) == "AlphabeticOrder"
     ) {
-      sortBtn.innerText = `Sort By: Alphabetic Order`;
+      // sortBtn.innerText = `Sort By: Alphabetic Order`;
+      if (directionSwitch == false) {
+        sortBtn.innerHTML = `<span class="bold">Sort By:</span>Alphabetic Order<i id="filterDirection" class="fa-solid fa-circle-down"></i>`;
+      } else {
+        sortBtn.innerHTML = `<span class="bold">Sort By:</span>Alphabetic Order<i id="filterDirection" class="fa-solid fa-circle-up"></i>`;
+      }
     } else {
-      sortBtn.innerText = `Sort By: ${option
-        .getAttribute("onclick")
-        .match(/(?<=sort)\w+/i)}`;
+      if (directionSwitch == false) {
+        sortBtn.innerHTML = `<span class="bold">Sort By:</span>${option
+          .getAttribute("onclick")
+          .match(
+            /(?<=sort)\w+/i
+          )}<i id="filterDirection" class="fa-solid fa-circle-down"></i>`;
+      } else {
+        sortBtn.innerHTML = `<span class="bold">Sort By:</span>${option
+          .getAttribute("onclick")
+          .match(
+            /(?<=sort)\w+/i
+          )}<i id="filterDirection" class="fa-solid fa-circle-up"></i>`;
+      }
     }
+
+    let filterDirection = document.getElementById("filterDirection");
+
+    filterDirection.addEventListener("click", () => {
+      let name =
+        filterDirection.parentElement.textContent.match(/(?<=Sort By:)\w+/i)[0];
+
+      if (directionSwitch == true) {
+        directionSwitch = false;
+        filterDirection.classList.remove("fa-circle-up");
+        filterDirection.classList.add("fa-circle-down");
+        dir1 = -1;
+        dir2 = 0;
+        dir3 = 1;
+      } else {
+        directionSwitch = true;
+        filterDirection.classList.remove("fa-circle-down");
+        filterDirection.classList.add("fa-circle-up");
+        dir1 = 1;
+        dir2 = 0;
+        dir3 = -1;
+      }
+
+      if (name == "Difficulty") {
+        display(actualList, sortDifficulty);
+      } else if (name == "Duration") {
+        display(actualList, sortDuration);
+      } else if (name == "Rating") {
+        display(actualList, sortRating);
+      } else if (name == "Alphabetic") {
+        display(actualList, sortAlphabeticOrder);
+      }
+    });
   });
 });

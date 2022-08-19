@@ -264,6 +264,20 @@ p{
     height: 100%;
 }
 
+#sortBtn:hover i{
+    color: var(--yellow);
+}
+
+#sortBtn i{
+    font-size: 1.5em;
+    margin-left: 2px;
+    color: var(--black);
+    
+}
+#sortBtn i:hover{
+    color: var(--white);
+}
+
 .bold{
     font-weight: 600;
     margin-right: 3px;
