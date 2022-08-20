@@ -404,3 +404,58 @@ function directionSwitchFunction() {
     showResults();
   });
 }
+
+const popUp = document.querySelector(".popUp");
+const popUpContainer = document.querySelector(".popUp div");
+const popUpContent = document.querySelector(".popUp img");
+const closePopUp = document.querySelector(".popUp i");
+
+filterBtn.addEventListener("click", () => {
+  if (popUp.style.display == "") {
+    popUp.style.display = "none";
+    popUpContainer.style.display = "none";
+    popUpContent.removeAttribute("src");
+  } else {
+    popUpContent.setAttribute("src", "./images/popUp.gif");
+    popUpContainer.style.display = "flex";
+    popUp.style.display = "";
+  }
+});
+
+closePopUp.addEventListener("click", () => {
+  popUpContainer.style.display = "none";
+  popUp.style.display = "none";
+});
+
+const bellBtn = document.querySelector(".bell");
+const notiPoint = document.querySelector(".notiPoint");
+const notifications = document.querySelector(".notificationsContainer");
+const notification = document.querySelectorAll(".notification");
+
+bellBtn.addEventListener("click", () => {
+  if (notifications.style.display == "none") {
+    notifications.style.display = "flex";
+  } else {
+    notifications.style.display = "none";
+  }
+});
+
+notification.forEach((item) => {
+  item.addEventListener("mouseenter", () => {
+    item.classList.add("checked");
+  });
+});
+
+let notiClose = notifications.querySelector("i");
+
+notiClose.addEventListener("click", () => {
+  notifications.style.display = "none";
+  if (
+    document.querySelectorAll(".notification").length ==
+    document.querySelectorAll(".notification.checked").length
+  ) {
+    notiPoint.style.display = "none";
+  } else {
+    notiPoint.style.display = "";
+  }
+});

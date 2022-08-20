@@ -216,30 +216,12 @@ const recipes = [
 
 const myRecipes = [
   {
-    name: "Peptobismol Hotdog",
-    description: "Tought it was ketchup💀",
+    name: "Ratatouille",
+    description: veggieIpsum,
     rating: `${RandomCalification()}`,
-    duration: "2 Minutes",
-    difficulty: "Easy",
-    type: "Sus",
-    image: "./images/RecipeImages/dog.webp",
-  },
-  {
-    name: "Pepperoni Pizza",
-    description: baconIpsum,
-    rating: `${RandomCalification()}`,
-    duration: "2 Hours",
-    difficulty: "Medium/Hard",
+    duration: "3 Hours",
+    difficulty: "Hard",
     type: "Italian food",
-    image: "./images/RecipeImages/peppPizza.jpg",
-  },
-  {
-    name: "Healthy Omelette",
-    description: baconIpsum,
-    rating: `${RandomCalification()}`,
-    duration: "30 Minutes",
-    difficulty: "Easy",
-    type: "Healthy",
-    image: "./images/RecipeImages/omelette.jpg",
+    image: "./images/RecipeImages/ratatouille.jfif",
   },
 ];
