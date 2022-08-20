@@ -190,15 +190,15 @@ descriptionText.addEventListener("keyup", () => {
 });
 
 hideSidebarBtn.addEventListener("click", () => {
-  sidebar.style.display = "none";
+  sidebar.classList.remove("displayGrid");
   content.style.cssText =
     "grid-template-columns:auto 40px,grid-template-rows: 40px auto;";
-  expandSidebarBtn.style.display = "flex";
+  expandSidebarBtn.classList.add("displayFlex");
 });
 
 expandSidebarBtn.addEventListener("click", () => {
-  sidebar.style.display = "grid";
-  expandSidebarBtn.style.display = "none";
+  sidebar.classList.add("displayGrid");
+  expandSidebarBtn.classList.remove("displayFlex");
 });
 
 //*** *** *** *** *** *** *** Sorting *** *** *** *** *** *** *** *** //
