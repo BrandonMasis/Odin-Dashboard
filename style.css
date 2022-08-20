@@ -193,7 +193,7 @@ p{
 }
 .search i{
     position: relative;
-    left: 25px;
+    left: 26px;
     color: var(--gray);
 }
 #searchBar{
@@ -272,8 +272,8 @@ p{
     font-size: 1.5em;
     margin-left: 2px;
     color: var(--black);
-    
 }
+
 #sortBtn i:hover{
     color: var(--white);
 }
@@ -468,7 +468,8 @@ p{
     flex-shrink: 1;
     flex-grow: 1;
     
-    display: grid;
+    /* display: grid; */
+    display: none;
     
     border-radius: 5px;
     overflow: hidden;
@@ -481,6 +482,10 @@ p{
     
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     
+}
+
+.visible{
+    display: grid;
 }
 
 .card:hover{
@@ -561,6 +566,15 @@ p{
 
 .type{
     background-color: var(--type);
+}
+
+
+
+.noFoundCard{
+    display: none;
+    width: 100%;
+    justify-content: center;
+   
 }
 
 .aboutMe{

@@ -18,6 +18,9 @@ let actualOption = "";
 let dir1 = -1,
   dir2 = 0,
   dir3 = 1;
+
+directionSwitchFunction();
+
 //Target list for filters
 let actualList = undefined;
 
@@ -86,7 +89,7 @@ myRecipesBtn.addEventListener("click", () => {
 });
 
 function display(list, sort) {
-  main.innerHTML = "";
+  main.innerHTML = `<h3 class="noFoundCard">No results founds for ""</h3>`;
 
   if (sort == undefined) {
     list = list.sort(sortAlphabeticOrder);
@@ -95,7 +98,7 @@ function display(list, sort) {
   }
 
   for (let i = 0; i < list.length; i++) {
-    main.innerHTML += `<div class="card">
+    main.innerHTML += `<div class="card visible">
           <div class="firstColumn">
             <div class="cardStats">
               <div>
@@ -137,22 +140,38 @@ function display(list, sort) {
   });
 }
 
+let input = document.getElementById("searchBar");
+
 //Search bar
+
 function showResults() {
-  let input = document.getElementById("searchBar");
+  let noFoundCard = document.querySelector(".noFoundCard");
   let filter = input.value.toUpperCase();
+
   cards.forEach((card) => {
     let cardName =
       card.querySelector(".cardInfo h1").textContent.toUpperCase() ||
       card.querySelector(".cardInfo h1").innerText.toUpperCase();
 
     if (cardName.includes(filter)) {
-      card.style.display = "";
+      card.classList.add("visible");
     } else {
-      card.style.display = "none";
+      card.classList.remove("visible");
     }
   });
+
+  if (document.querySelector(".card.visible") == null) {
+    noFoundCard.style.display = "flex";
+    noFoundCard.textContent = `No results founds for "${input.value}"`;
+  } else {
+    noFoundCard.style.display = "none";
+  }
 }
+
+let noFoundCard = document.querySelector(".noFoundCard");
+input.addEventListener("keyup", () => {
+  noFoundCard.textContent = `No results founds for "${input.value}"`;
+});
 
 //*** *** *** *** *** *** ***Sidebar about me*** *** *** *** *** *** *** *** //
 
@@ -312,12 +331,6 @@ document.addEventListener("click", (e) => {
     sortBtn.style.display = "flex";
     sortingOptions.style.display = "none";
   }
-
-  // console.log(e.target.id);
-  // if (e.target.id != "sortingOption" && e.target.id != "sortBtn") {
-  //   sortBtn.style.display = "flex";
-  //   sortingOptions.style.display = "none";
-  // }
 });
 
 let directionSwitch = false;
@@ -351,37 +364,43 @@ sortingOption.forEach((option) => {
       }
     }
 
-    let filterDirection = document.getElementById("filterDirection");
-
-    filterDirection.addEventListener("click", () => {
-      let name =
-        filterDirection.parentElement.textContent.match(/(?<=Sort By:)\w+/i)[0];
-
-      if (directionSwitch == true) {
-        directionSwitch = false;
-        filterDirection.classList.remove("fa-circle-up");
-        filterDirection.classList.add("fa-circle-down");
-        dir1 = -1;
-        dir2 = 0;
-        dir3 = 1;
-      } else {
-        directionSwitch = true;
-        filterDirection.classList.remove("fa-circle-down");
-        filterDirection.classList.add("fa-circle-up");
-        dir1 = 1;
-        dir2 = 0;
-        dir3 = -1;
-      }
-
-      if (name == "Difficulty") {
-        display(actualList, sortDifficulty);
-      } else if (name == "Duration") {
-        display(actualList, sortDuration);
-      } else if (name == "Rating") {
-        display(actualList, sortRating);
-      } else if (name == "Alphabetic") {
-        display(actualList, sortAlphabeticOrder);
-      }
-    });
+    directionSwitchFunction();
+    showResults();
   });
 });
+
+function directionSwitchFunction() {
+  let filterDirection = document.getElementById("filterDirection");
+  filterDirection.addEventListener("click", () => {
+    let name =
+      filterDirection.parentElement.textContent.match(/(?<=Sort By:)\w+/i)[0];
+
+    if (directionSwitch == true) {
+      directionSwitch = false;
+      filterDirection.classList.remove("fa-circle-up");
+      filterDirection.classList.add("fa-circle-down");
+      dir1 = -1;
+      dir2 = 0;
+      dir3 = 1;
+    } else {
+      directionSwitch = true;
+      filterDirection.classList.remove("fa-circle-down");
+      filterDirection.classList.add("fa-circle-up");
+      dir1 = 1;
+      dir2 = 0;
+      dir3 = -1;
+    }
+
+    if (name == "Difficulty") {
+      display(actualList, sortDifficulty);
+    } else if (name == "Duration") {
+      display(actualList, sortDuration);
+    } else if (name == "Rating") {
+      display(actualList, sortRating);
+    } else if (name == "Alphabetic") {
+      display(actualList, sortAlphabeticOrder);
+    }
+
+    showResults();
+  });
+}
